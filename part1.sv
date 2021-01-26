@@ -37,7 +37,7 @@ module mult
 	   assign pp[1][k] = x[k] & y[0];
 	end
 
-	assign pp[1][8] = 0;
+	assign pp[1][15:8] = 0;
 
 	// Initial first row cin
 	for(genvar z=1; z<9; z=z+1) begin: init_cin
@@ -90,8 +90,11 @@ module mult
                 .cout(cin[i+1][7+i+1]),
                 .s(pp[i+1][7+i])
             );
-    end
 
+        //zero-out the final pps
+        assign pp[i][15:7+i]='0;
+    end
+    assign pp[7][15:14]='0;
     //final layers
     //transport
     for (j=0; j<7; j++) begin: final_init
